@@ -1,0 +1,9 @@
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\bin\Debug\hehhehehhe.exe.config
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\bin\Debug\hehhehehhe.exe
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\bin\Debug\hehhehehhe.pdb
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\obj\Debug\hehhehehhe.Form1.resources
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\obj\Debug\hehhehehhe.Properties.Resources.resources
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\obj\Debug\ARS.csproj.GenerateResource.cache
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\obj\Debug\ARS.csproj.CoreCompileInputs.cache
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\obj\Debug\hehhehehhe.exe
+C:\Users\Bartek\source\repos\hehhehehhe\hehhehehhe\obj\Debug\hehhehehhe.pdb
