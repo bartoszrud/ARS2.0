@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hehhehehhe
+namespace ARS
 {
     public class Samolot
     {
@@ -28,8 +28,8 @@ namespace hehhehehhe
         private bool [] miejsca = new bool [157];//jeśli miejsca[i] == true to miejsce jest wolne
         private int wolne_miejsca;
         private string nr_lotu;
-        private string lotnisko_docelowe;
-        private string lotnisko_wylotu;
+        public string lotnisko_docelowe { get; set; } // !!!!!
+        public string lotnisko_wylotu;
         private double cena_pdst;
         private string data_odlotu;
         private double ustaw_cene()

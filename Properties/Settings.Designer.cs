@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace hehhehehhe.Properties
+namespace ARS.Properties
 {
 
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hehhehehhe
+namespace ARS
 {
     class Rezerwacje
     {
@@ -52,7 +52,9 @@ namespace hehhehehhe
 
     class Karta_pokladowa :  Rezerwacje
         {
+        // prawdopodobnie będą potrzebne przyjaźnie do obsługi zapisu/odczytu
 
+       
         bool priority;
         bool bagaz;
         int nr_miejsca;

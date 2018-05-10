@@ -1,4 +1,4 @@
-﻿namespace hehhehehhe
+﻿namespace ARS
 {
     partial class Form1
     {
@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panelLoty = new System.Windows.Forms.Panel();
+            this.comboBox = new System.Windows.Forms.ComboBox();
             this.przyciskAdmin = new System.Windows.Forms.Button();
             this.przyciskZarzadzaj = new System.Windows.Forms.Button();
             this.przyciskRezerwuj = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tabelaLotow = new System.Windows.Forms.DataGridView();
             this.wylotu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.docelowe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.godzinaOdlot = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,14 +54,14 @@
             this.boxNrmiejsca = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.przyciskAkceptuj = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.checkPriority = new System.Windows.Forms.CheckBox();
             this.checkBagaz = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelLoty.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tabelaLotow)).BeginInit();
             this.panelRezerw.SuspendLayout();
             this.panelKarta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.boxNrmiejsca)).BeginInit();
@@ -68,14 +70,26 @@
             // 
             // panelLoty
             // 
+            this.panelLoty.Controls.Add(this.comboBox);
             this.panelLoty.Controls.Add(this.przyciskAdmin);
             this.panelLoty.Controls.Add(this.przyciskZarzadzaj);
             this.panelLoty.Controls.Add(this.przyciskRezerwuj);
-            this.panelLoty.Controls.Add(this.dataGridView1);
+            this.panelLoty.Controls.Add(this.tabelaLotow);
             this.panelLoty.Location = new System.Drawing.Point(1, 16);
             this.panelLoty.Name = "panelLoty";
             this.panelLoty.Size = new System.Drawing.Size(787, 533);
             this.panelLoty.TabIndex = 0;
+            // 
+            // comboBox
+            // 
+            this.comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.comboBox.FormattingEnabled = true;
+            this.comboBox.Location = new System.Drawing.Point(591, 504);
+            this.comboBox.Name = "comboBox";
+            this.comboBox.Size = new System.Drawing.Size(66, 24);
+            this.comboBox.TabIndex = 4;
             // 
             // przyciskAdmin
             // 
@@ -111,19 +125,19 @@
             this.przyciskRezerwuj.UseVisualStyleBackColor = true;
             this.przyciskRezerwuj.Click += new System.EventHandler(this.przyciskRezerwuj_Click);
             // 
-            // dataGridView1
+            // tabelaLotow
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tabelaLotow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tabelaLotow.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.wylotu,
             this.docelowe,
             this.godzinaOdlot,
             this.godzinaprzylot,
             this.data});
-            this.dataGridView1.Location = new System.Drawing.Point(11, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(543, 306);
-            this.dataGridView1.TabIndex = 0;
+            this.tabelaLotow.Location = new System.Drawing.Point(11, 3);
+            this.tabelaLotow.Name = "tabelaLotow";
+            this.tabelaLotow.Size = new System.Drawing.Size(543, 306);
+            this.tabelaLotow.TabIndex = 0;
             // 
             // wylotu
             // 
@@ -253,10 +267,10 @@
             // 
             // panelKarta
             // 
+            this.panelKarta.Controls.Add(this.pictureBox1);
             this.panelKarta.Controls.Add(this.boxNrmiejsca);
             this.panelKarta.Controls.Add(this.label7);
             this.panelKarta.Controls.Add(this.label6);
-            this.panelKarta.Controls.Add(this.pictureBox1);
             this.panelKarta.Controls.Add(this.przyciskAkceptuj);
             this.panelKarta.Controls.Add(this.label3);
             this.panelKarta.Controls.Add(this.checkPriority);
@@ -275,9 +289,19 @@
             0,
             0,
             0});
+            this.boxNrmiejsca.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.boxNrmiejsca.Name = "boxNrmiejsca";
             this.boxNrmiejsca.Size = new System.Drawing.Size(67, 20);
             this.boxNrmiejsca.TabIndex = 7;
+            this.boxNrmiejsca.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label7
             // 
@@ -298,15 +322,6 @@
             this.label6.Size = new System.Drawing.Size(263, 21);
             this.label6.TabIndex = 5;
             this.label6.Text = "Chcę wykupić priority pass! - 50zł";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::hehhehehhe.Properties.Resources.A319_Kadrowane530PNG;
-            this.pictureBox1.Location = new System.Drawing.Point(493, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(164, 530);
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
             // 
             // przyciskAkceptuj
             // 
@@ -358,6 +373,16 @@
             this.label8.TabIndex = 8;
             this.label8.Text = "Miejsca 1-6 oraz 55-66 to miejsca z większą przestrzenią na nogi!";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(493, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(164, 530);
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,7 +394,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.panelLoty.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tabelaLotow)).EndInit();
             this.panelRezerw.ResumeLayout(false);
             this.panelRezerw.PerformLayout();
             this.panelKarta.ResumeLayout(false);
@@ -393,10 +418,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button przyciskRezerwuj;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView tabelaLotow;
         private System.Windows.Forms.DataGridViewTextBoxColumn wylotu;
         private System.Windows.Forms.DataGridViewTextBoxColumn docelowe;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button przyciskAdmin;
         private System.Windows.Forms.Button przyciskZarzadzaj;
         private System.Windows.Forms.Label label5;
@@ -412,6 +436,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn godzinaOdlot;
         private System.Windows.Forms.DataGridViewTextBoxColumn godzinaprzylot;
         private System.Windows.Forms.DataGridViewTextBoxColumn data;
+        private System.Windows.Forms.ComboBox comboBox;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
