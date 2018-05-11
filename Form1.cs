@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ARS
 {
@@ -17,6 +18,7 @@ namespace ARS
         int licznik_kart = 0;
         int ktora_rezerwacja = 0;
         int wybrany_lot = 0;
+        Admin admin1 = new Admin();
 
         List<Rezerwacje> rezerwacje = new List<Rezerwacje>();
         List<Karta_pokladowa> karty = new List<Karta_pokladowa>();
@@ -31,7 +33,14 @@ namespace ARS
             InitializeComponent();
             panelRezerw.Hide();
             panelKarta.Hide();
-           
+            panelZarzadzaj.Hide();
+            panelPlatnosc.Hide();
+            panelKartaZarz.Hide();
+            panelLogowanieAdmin.Hide();
+            panelAdminPanel.Hide();
+            panelDodajLot.Hide();
+            panelAnulowanie.Hide();
+
             Lot l1 = new Lot(156);
             
             loty.Insert(0,l1);
@@ -59,9 +68,11 @@ namespace ARS
             {
                 int x = i + 1;
                 tabelaLotow.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date() );
+                tabelaLotowAdmin.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date());
                 comboBox.Items.Add(x.ToString());
                 comboBox.SelectedIndex=0;
-
+                comboBoxAdmin.Items.Add(x.ToString());
+                comboBoxAdmin.SelectedIndex = 0;
             }
         }
 
@@ -99,12 +110,97 @@ namespace ARS
             {
                 karty[licznik_kart].wybierz_miejsce((int)boxNrmiejsca.Value);
                 panelKarta.Hide();
-                panelLoty.Show();
-
+                panelPlatnosc.Show();
                 licznik_kart++;
             }
             else MessageBox.Show("Wybrane miejsce jest już zajęte!");
                 
+        }
+
+        private void przyciskZarzadzaj_Click(object sender, EventArgs e)
+        {
+            panelLoty.Hide();
+            panelZarzadzaj.Show();
+        }
+
+        private void przyciskZarzadzaj_Click_1(object sender, EventArgs e)
+        {
+            panelLoty.Hide();
+            panelZarzadzaj.Show();
+        }
+
+        private void przyciskPowrot_Click(object sender, EventArgs e)
+        {
+            panelZarzadzaj.Hide();
+            panelLoty.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            panelPlatnosc.Hide();
+            panelLoty.Show();
+        }
+
+        private void przyciskSpr_Click(object sender, EventArgs e)
+        {
+            panelZarzadzaj.Hide();
+            panelKartaZarz.Show();
+        }
+
+       
+        private void przyciskStrglZarz_Click_1(object sender, EventArgs e)
+        {
+            panelKartaZarz.Hide();
+            panelLoty.Show();
+        }
+
+        private void przyciskAdmin_Click(object sender, EventArgs e)
+        {
+            panelLoty.Hide();
+            panelLogowanieAdmin.Show();
+        }
+
+        private void przyciskAkceptujZarezerw_Click(object sender, EventArgs e)
+        {
+            panelKartaZarz.Hide();
+            panelLoty.Show();
+        }
+
+        private void przyciskZaloguj_Click(object sender, EventArgs e)
+        {
+            string haslo = textWprowadzoneHaslo.Text;
+            if (admin1.zaloguj(haslo))
+            {
+                // panelLogowanieAdmin.Hide();
+                panelAdminPanel.BringToFront();
+                panelAdminPanel.Show();
+            }
+        }
+
+        private void przyciskUsunLot_Click(object sender, EventArgs e)
+        {
+            int dousuniecia = comboBoxAdmin.SelectedIndex;
+            MessageBox.Show(dousuniecia.ToString());
+            loty.RemoveAt(dousuniecia);
+            
+        }
+
+        private void przyciskAnulowanieRezerw_Click(object sender, EventArgs e)
+        {
+            panelAdminPanel.Hide();
+            panelAnulowanie.Show();
+        }
+
+        private void przyciskDodajLot_Click(object sender, EventArgs e)
+        {
+            panelAdminPanel.Hide();
+            panelDodajLot.Show();
+            panelDodajLot.BringToFront();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
         }
 
        

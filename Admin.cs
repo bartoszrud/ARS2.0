@@ -23,7 +23,7 @@ namespace ARS
         public bool zaloguj(string h)
         {
             if (h == haslo)
-                return true;
+            { return true; }
             else return false;
         }
         public void anuluj_rezerwacje(Rezerwacje  r)
