@@ -31,6 +31,7 @@ namespace ARS
         public Form1()
         {
             InitializeComponent();
+            
             panelRezerw.Hide();
             panelKarta.Hide();
             panelZarzadzaj.Hide();
@@ -40,13 +41,16 @@ namespace ARS
             panelAdminPanel.Hide();
             panelDodajLot.Hide();
             panelAnulowanie.Hide();
+            wczytywanieLotow();
+            this.Controls.Add(panelKarta);
+            MessageBox.Show(liczba_lotow.ToString());
 
-            Lot l1 = new Lot(156);
             
-            loty.Insert(0,l1);
-            Dostepne_polaczenia pol1 = new Dostepne_polaczenia(loty[liczba_lotow]);
-            pol.Insert(liczba_lotow, pol1);
-            liczba_lotow++;
+          //  Lot l1 = new Lot(156);
+            
+          //  loty.Insert(0,l1);
+            
+            
             wyswietlanie();
         }
 
@@ -54,7 +58,8 @@ namespace ARS
         private void przyciskRezerwuj_Click(object sender, EventArgs e)
         {
             panelRezerw.Show();
-            panelKarta.Hide();
+            panelRezerw.BringToFront();
+          
             panelLoty.Hide();
             wybrany_lot = comboBox.SelectedIndex;
             //MessageBox.Show(wybrany_lot.ToString());
@@ -66,35 +71,64 @@ namespace ARS
         {
             for (int i = 0; i < liczba_lotow; i++)
             {
+                Dostepne_polaczenia polaczenie = new Dostepne_polaczenia(loty[i]);
+                pol.Insert(i, polaczenie);
+
                 int x = i + 1;
-                tabelaLotow.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date() );
-                tabelaLotowAdmin.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date());
+               // tabelaLotow.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date() );
+              //  tabelaLotowAdmin.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date());
                 comboBox.Items.Add(x.ToString());
                 comboBox.SelectedIndex=0;
                 comboBoxAdmin.Items.Add(x.ToString());
                 comboBoxAdmin.SelectedIndex = 0;
+            }
+            wczytywaniePolaczen();
+            for(int i =0; i<liczba_lotow;i++)
+            {
+                tabelaLotow.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date());
+                tabelaLotowAdmin.Rows.Add(pol[i].podaj_lotnisko_wylotu(), pol[i].podaj_lotnisko_docelowe(), pol[i].podaj_godz_odlotu(), pol[i].podaj_godz_przylotu(), pol[i].podaj_date());
             }
         }
 
 
         private void przyciskDalej_Click(object sender, EventArgs e)
         {
-            panelKarta.Show();
-            panelRezerw.Hide();
-            panelLoty.Hide();
+            
             string imie = textImie.Text;
             string nazwisko = textNazwisko.Text;
             string nrtel = textNrtel.Text;
             string kraj = textKraj.Text;
-            Rezerwacje p1 = new Rezerwacje(loty[wybrany_lot], imie, nazwisko, nrtel, kraj);
-            licznik_rezerwacji++;
-            rezerwacje.Add(p1);
+
+            if (imie.Length > 1 && nazwisko.Length > 1 && nrtel.Length > 8 && nrtel.Length < 14 && kraj.Length > 0)
+            {
+                Rezerwacje p1 = new Rezerwacje(loty[wybrany_lot], imie, nazwisko, nrtel, kraj);
+                licznik_rezerwacji++;
+                rezerwacje.Add(p1);
+
+                textImie.Clear();
+                textNazwisko.Clear();
+                textNrtel.Clear();
+                textKraj.Clear();
+                panelRezerw.Hide();
+             
+                //panelKarta.Location = new Point(16, 16);
+                panelKarta.Show();
+                panelKarta.BringToFront();
+             
+            }
+            else MessageBox.Show("Wprowadzono nieprawidłowe dane!");
+
+
+                
+               
+                
+                
         }
 
         private void przyciskZarezerwuj_Click(object sender, EventArgs e)
         {
             panelLoty.BringToFront();
-            Karta_pokladowa k1 = new Karta_pokladowa(rezerwacje[licznik_kart]);
+            Karta_pokladowa k1 = new Karta_pokladowa(loty[wybrany_lot], rezerwacje[licznik_kart].podajImie(), rezerwacje[licznik_kart].pokazNazwisko(), rezerwacje[licznik_kart].pokazNr_tel(), rezerwacje[licznik_kart].podajKraj());
             karty.Add(k1);
             if (checkBagaz.Checked)
             {
@@ -109,9 +143,12 @@ namespace ARS
             if (loty[wybrany_lot].zajmij_miejsce((int)boxNrmiejsca.Value))
             {
                 karty[licznik_kart].wybierz_miejsce((int)boxNrmiejsca.Value);
+                string cena = loty[wybrany_lot].podaj_cene(karty[licznik_kart].czyBagaz(), karty[licznik_kart].czyPriority()).ToString();
+                labelKwota.Text = cena;
                 panelKarta.Hide();
                 panelPlatnosc.Show();
                 licznik_kart++;
+
             }
             else MessageBox.Show("Wybrane miejsce jest już zajęte!");
                 
@@ -121,6 +158,8 @@ namespace ARS
         {
             panelLoty.Hide();
             panelZarzadzaj.Show();
+            textNazwiskoZarz.Clear();
+            textNrtelZarz.Clear();
         }
 
         private void przyciskZarzadzaj_Click_1(object sender, EventArgs e)
@@ -137,14 +176,50 @@ namespace ARS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            panelPlatnosc.Hide();
-            panelLoty.Show();
+            if (textNrKarty.Text.Length == 16 && textCVC.Text.Length == 3)
+            {
+                panelPlatnosc.Hide();
+                panelLoty.Show();
+                textCVC.Clear();
+                textNrKarty.Clear();
+            }
+            else MessageBox.Show("Wprowadzono błędne dane, spróbuj ponownie.");
         }
 
         private void przyciskSpr_Click(object sender, EventArgs e)
         {
-            panelZarzadzaj.Hide();
-            panelKartaZarz.Show();
+            string Snazw = textNazwiskoZarz.Text;
+            string Snr = textNrtelZarz.Text;
+
+            for(int i = 0; i<licznik_kart;i++)
+            {
+
+                if (karty[i].pokazNazwisko() == Snazw && karty[i].pokazNr_tel() == Snr)
+                {
+                    numericZarz.Value = karty[i].pokaz_karte();
+
+
+                    panelZarzadzaj.Hide();
+                    panelKartaZarz.Show();
+
+                    ktora_rezerwacja = i;
+                    
+                    if(karty[ktora_rezerwacja].czyBagaz() == true)
+                    {
+                        checkBagazZarezerw.Checked = true;
+                    } else checkBagazZarezerw.Checked = false;
+
+                    if (karty[ktora_rezerwacja].czyPriority() == true)
+                    {
+                        checkPriorityZarezerw.Checked = true;
+                    } else checkPriorityZarezerw.Checked = false;
+
+                    break;
+                }
+
+            }
+
+           
         }
 
        
@@ -162,6 +237,23 @@ namespace ARS
 
         private void przyciskAkceptujZarezerw_Click(object sender, EventArgs e)
         {
+            if (checkBagazZarezerw.Checked)
+            {
+                karty[ktora_rezerwacja].dodaj_bagaz();
+            }
+
+            if (checkPriorityZarezerw.Checked)
+            {
+                karty[ktora_rezerwacja].dodaj_priority();
+            }
+
+            if (loty[wybrany_lot].zajmij_miejsce((int)numericZarz.Value))
+            {
+                loty[wybrany_lot].zwolnij_miejsce(karty[ktora_rezerwacja].pokaz_karte());
+                karty[ktora_rezerwacja].wybierz_miejsce((int)numericZarz.Value);
+
+            }
+           
             panelKartaZarz.Hide();
             panelLoty.Show();
         }
@@ -182,11 +274,14 @@ namespace ARS
             int dousuniecia = comboBoxAdmin.SelectedIndex;
             MessageBox.Show(dousuniecia.ToString());
             loty.RemoveAt(dousuniecia);
-            
+            tabelaLotow.Rows.RemoveAt(dousuniecia);
+            tabelaLotowAdmin.Rows.RemoveAt(dousuniecia);
+            liczba_lotow--;
         }
 
         private void przyciskAnulowanieRezerw_Click(object sender, EventArgs e)
         {
+
             panelAdminPanel.Hide();
             panelAnulowanie.Show();
         }
@@ -200,9 +295,164 @@ namespace ARS
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            string Anazw = textNazwiskoAnulacja.Text;
+            string Anr = textNrtelAnulacja.Text;
+
+            for (int j = 0; j < licznik_rezerwacji; j++)
+            {
+
+                if (rezerwacje[j].pokazNazwisko() == Anazw && rezerwacje[j].pokazNr_tel() == Anr)
+                {
+                    rezerwacje[j].anuluj();
+                    MessageBox.Show("Pierwsza pętla");
+                }
+            }
+            //!!!!!!!!!!! Konstruktor kopiujący dla kart!!!!!!!!!!
+            for (int x = 0; x < licznik_kart; x++)
+            {
+
+                if (karty[x].pokazNazwisko() == Anazw && karty[x].pokazNr_tel() == Anr)
+                {
+                    //admin1.anuluj_rezerwacje(karty[x]);
+                    for (int k = 0; k < liczba_lotow; k++)
+                    {
+                        if (karty[x].podajNr_lotu() == loty[k].podaj_nr_lotu() && karty[x].podajDate_lotu() == loty[k].podaj_date())
+                        {
+
+                            loty[k].zwolnij_miejsce(karty[x].pokaz_karte());
+                            MessageBox.Show("Zwolniono, anulowano");
+                            break;
+                        }
+
+                    }
+                    panelAnulowanie.Hide();
+                    panelAdminPanel.Show();
+                    break;
+                }
+
+            }
+
+
         }
 
-       
+        private void przyciskDodaj2_Click(object sender, EventArgs e)
+        {
+            string Ddocelowe = textLotniskoDocelowe.Text;
+            string DLotniskoWylotu = textLotniskoWylotu.Text;
+            string Ddata = textDataLotu.Text;
+            string Dnrlotu = textNrLotu.Text;
+            string DgodzWylotu = textGodzinaWylotu.Text;
+            string DgodzPrzylotu = textGodzinaPrzylotu.Text;
+
+            loty.Insert(liczba_lotow, admin1.dodaj_lot(Ddocelowe, Dnrlotu, Ddata, DLotniskoWylotu));
+
+            Dostepne_polaczenia poloczenie = new Dostepne_polaczenia(loty[liczba_lotow], DgodzWylotu, DgodzPrzylotu);
+            pol.Add(poloczenie);
+
+            tabelaLotow.Rows.Add(pol[liczba_lotow].podaj_lotnisko_wylotu(), pol[liczba_lotow].podaj_lotnisko_docelowe(), pol[liczba_lotow].podaj_godz_odlotu(), pol[liczba_lotow].podaj_godz_przylotu(), pol[liczba_lotow].podaj_date());
+            tabelaLotowAdmin.Rows.Add(pol[liczba_lotow].podaj_lotnisko_wylotu(), pol[liczba_lotow].podaj_lotnisko_docelowe(), pol[liczba_lotow].podaj_godz_odlotu(), pol[liczba_lotow].podaj_godz_przylotu(), pol[liczba_lotow].podaj_date());
+
+            comboBox.Items.Add(liczba_lotow.ToString());
+            
+            comboBoxAdmin.Items.Add(liczba_lotow.ToString());
+
+            liczba_lotow++;
+
+            panelDodajLot.Hide();
+            panelAdminPanel.Show();
+        }
+
+     
+
+        void zapisywanieLotow()
+        {
+            string pathLoty = "lotyplik.dat";
+
+            FileInfo datFile = new FileInfo(pathLoty);
+
+            BinaryWriter bw = new BinaryWriter(datFile.OpenWrite());
+
+            bw.Write(liczba_lotow);
+            for (int i = 0; i<liczba_lotow;i++)
+            {
+                bw.Write(loty[i].wszystkie_miejsca());
+                bw.Write(loty[i].wysw());
+               
+                bw.Write(loty[i].ile_miejsc());
+                bw.Write(loty[i].lotnisko_docelowe); // getter 
+                bw.Write(loty[i].podaj_nr_lotu());
+                bw.Write(loty[i].podaj_date());
+                bw.Write(loty[i].lotnisko_wylotu);
+
+            }
+            bw.Close();
+        }
+
+        void wczytywanieLotow()
+        {
+            string pathLoty = "lotyplik.dat";
+
+            FileInfo datFile = new FileInfo(pathLoty);
+            BinaryReader br = new BinaryReader(datFile.OpenRead());
+
+            liczba_lotow = br.ReadInt32();
+
+            for (int i = 0; i < liczba_lotow; i++)
+            {
+                int tempWszystkiemiejsca = br.ReadInt32();
+                string tempNazwa = br.ReadString();
+                int tempWolne = br.ReadInt32();
+                string tempDocelowe = br.ReadString();
+                string tempNrlotu = br.ReadString();
+                string temp_data = br.ReadString();
+                string tempWylotu = br.ReadString();
+                Lot lot1 = new Lot(tempWszystkiemiejsca, tempNazwa, tempWolne, tempDocelowe, tempNrlotu,temp_data,tempWylotu );
+                loty.Insert(i, lot1);
+
+            }
+
+            br.Close();
+
+        }
+
+        void zapisywaniePolaczen()
+        {
+            string pathLoty = "polaczeniaplik.dat";
+
+            FileInfo datFile = new FileInfo(pathLoty);
+
+            BinaryWriter bw = new BinaryWriter(datFile.OpenWrite());
+
+            for (int i=0;i<liczba_lotow;i++)
+            {
+                bw.Write(pol[i].podaj_godz_odlotu());
+                bw.Write(pol[i].podaj_godz_przylotu());
+
+            }
+        }
+
+        void wczytywaniePolaczen()
+        {
+            string pathLoty = "polaczeniaplik.dat";
+
+            FileInfo datFile = new FileInfo(pathLoty);
+            BinaryReader br = new BinaryReader(datFile.OpenRead());
+
+            for (int i = 0; i < liczba_lotow; i++)
+            {
+                string temp_godz_odlt = br.ReadString();
+                string temp_godz_przyl = br.ReadString();
+
+                pol[i].wczytaj(temp_godz_odlt, temp_godz_przyl);
+            }
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           
+            zapisywanieLotow();
+            zapisywaniePolaczen();
+        }
     }
 }

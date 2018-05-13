@@ -68,7 +68,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.panelPlatnosc = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.przyciskZaplac = new System.Windows.Forms.Button();
             this.labelKwota = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -465,7 +465,6 @@
             this.panelZarzadzaj.Controls.Add(this.textNazwiskoZarz);
             this.panelZarzadzaj.Controls.Add(this.label10);
             this.panelZarzadzaj.Controls.Add(this.label9);
-            this.panelZarzadzaj.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelZarzadzaj.Location = new System.Drawing.Point(0, 21);
             this.panelZarzadzaj.Name = "panelZarzadzaj";
             this.panelZarzadzaj.Size = new System.Drawing.Size(784, 540);
@@ -531,7 +530,7 @@
             // 
             // panelPlatnosc
             // 
-            this.panelPlatnosc.Controls.Add(this.button1);
+            this.panelPlatnosc.Controls.Add(this.przyciskZaplac);
             this.panelPlatnosc.Controls.Add(this.labelKwota);
             this.panelPlatnosc.Controls.Add(this.label13);
             this.panelPlatnosc.Controls.Add(this.label12);
@@ -543,17 +542,17 @@
             this.panelPlatnosc.Size = new System.Drawing.Size(784, 530);
             this.panelPlatnosc.TabIndex = 6;
             // 
-            // button1
+            // przyciskZaplac
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button1.Location = new System.Drawing.Point(354, 488);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 32);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Zapłać";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.przyciskZaplac.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.przyciskZaplac.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.przyciskZaplac.Location = new System.Drawing.Point(354, 488);
+            this.przyciskZaplac.Name = "przyciskZaplac";
+            this.przyciskZaplac.Size = new System.Drawing.Size(75, 32);
+            this.przyciskZaplac.TabIndex = 7;
+            this.przyciskZaplac.Text = "Zapłać";
+            this.przyciskZaplac.UseVisualStyleBackColor = true;
+            this.przyciskZaplac.Click += new System.EventHandler(this.button1_Click);
             // 
             // labelKwota
             // 
@@ -912,6 +911,7 @@
             this.przyciskDodaj2.TabIndex = 12;
             this.przyciskDodaj2.Text = "Dodaj!";
             this.przyciskDodaj2.UseVisualStyleBackColor = true;
+            this.przyciskDodaj2.Click += new System.EventHandler(this.przyciskDodaj2_Click);
             // 
             // textGodzinaPrzylotu
             // 
@@ -1100,17 +1100,18 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.panelDodajLot);
             this.Controls.Add(this.panelRezerw);
-            this.Controls.Add(this.panelLoty);
             this.Controls.Add(this.panelLogowanieAdmin);
+            this.Controls.Add(this.panelLoty);
+            this.Controls.Add(this.panelAnulowanie);
             this.Controls.Add(this.panelZarzadzaj);
             this.Controls.Add(this.panelPlatnosc);
             this.Controls.Add(this.panelKartaZarz);
-            this.Controls.Add(this.panelAnulowanie);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(800, 600);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Form1";
             this.Text = "Airline Reservation System";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panelLoty.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tabelaLotow)).EndInit();
             this.panelRezerw.ResumeLayout(false);
@@ -1180,7 +1181,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panelPlatnosc;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button przyciskZaplac;
         private System.Windows.Forms.Label labelKwota;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;

@@ -40,6 +40,12 @@ namespace ARS
             lotnisko_wylotu = lot.lotnisko_wylotu;
          }
 
+        public void wczytaj(string godz_odl,string godz_przyl)
+        {
+            godzina_odlotu = godz_odl;
+            godzina_przylotu = godz_przyl;
+        }
+
         public string podaj_lotnisko_wylotu() { return lotnisko_wylotu; }
         public string podaj_lotnisko_docelowe() { return lotnisko_docelowe; }
         public string podaj_godz_przylotu() { return godzina_przylotu; }

@@ -8,7 +8,7 @@ namespace ARS
 {
     class Rezerwacje
     {
-        string imie;
+        protected string imie;
         string kraj;
         bool anulowana;
         string nr_lotu;
@@ -47,6 +47,10 @@ namespace ARS
         public string pokazNr_tel() { return nr_tel; }
         public string podajNr_lotu() { return nr_lotu; }
         public string podajDate_lotu() { return data_odlotu; }
+
+        // ponieważ nie ma konstruktora kopiującego
+        public string podajImie() { return imie; }
+        public string podajKraj() { return kraj; }
     }
 
 
@@ -65,7 +69,8 @@ namespace ARS
         {
 
         }
-        public Karta_pokladowa(Rezerwacje rezerw, bool bag = false, bool prio = false)  // ogarnąć konstruktor kopiujący!!
+        public Karta_pokladowa(Lot lot, string Kimie, string Knazwisko, string Knr_tel, string Kkraj = "PL", bool bag = false, bool prio = false)
+            : base (lot, Kimie, Knazwisko, Knr_tel, Kkraj = "PL") // ogarnąć konstruktor kopiujący!!
         {
             bagaz = bag;
             priority = prio;

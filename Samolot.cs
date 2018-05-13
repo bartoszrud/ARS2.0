@@ -20,6 +20,7 @@ namespace ARS
         {
             return nazwa;
         }
+        
        
     }
 
@@ -34,7 +35,7 @@ namespace ARS
         private string data_odlotu;
         private double ustaw_cene()
         {
-            double losowanie = 200; 
+            double losowanie = 200;  // Ogarnąć liczby pseudolosowe
 
             return losowanie;
         }
@@ -106,7 +107,7 @@ namespace ARS
             }
             else return false;
         }
-            
+        public int wszystkie_miejsca() { return ilosc_miejsc; } //
         public  string podaj_nr_lotu() { return nr_lotu; }
         public string podaj_date() { return data_odlotu; }
         public double podaj_cene(bool bagaz, bool priority)
