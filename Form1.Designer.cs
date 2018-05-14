@@ -587,13 +587,16 @@
             // textCVC
             // 
             this.textCVC.Location = new System.Drawing.Point(202, 155);
+            this.textCVC.MaxLength = 3;
             this.textCVC.Name = "textCVC";
             this.textCVC.Size = new System.Drawing.Size(250, 20);
             this.textCVC.TabIndex = 3;
             // 
             // textNrKarty
             // 
+            this.textNrKarty.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.textNrKarty.Location = new System.Drawing.Point(202, 85);
+            this.textNrKarty.MaxLength = 16;
             this.textNrKarty.Name = "textNrKarty";
             this.textNrKarty.Size = new System.Drawing.Size(250, 20);
             this.textNrKarty.TabIndex = 2;
@@ -1098,14 +1101,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
-            this.Controls.Add(this.panelDodajLot);
-            this.Controls.Add(this.panelRezerw);
             this.Controls.Add(this.panelLogowanieAdmin);
             this.Controls.Add(this.panelLoty);
             this.Controls.Add(this.panelAnulowanie);
             this.Controls.Add(this.panelZarzadzaj);
             this.Controls.Add(this.panelPlatnosc);
             this.Controls.Add(this.panelKartaZarz);
+            this.Controls.Add(this.panelDodajLot);
+            this.Controls.Add(this.panelRezerw);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(800, 600);
             this.MinimumSize = new System.Drawing.Size(800, 600);

@@ -42,7 +42,10 @@ namespace ARS
             panelDodajLot.Hide();
             panelAnulowanie.Hide();
             wczytywanieLotow();
+
             this.Controls.Add(panelKarta);
+            wczytywanieRezerw();
+            wczytywanieKart();
             MessageBox.Show(liczba_lotow.ToString());
 
             
@@ -176,12 +179,15 @@ namespace ARS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textNrKarty.Text.Length == 16 && textCVC.Text.Length == 3)
+            if (textNrKarty.Text.Length == 16 && textCVC.Text.Length == 3) 
             {
+                int tymczasowa = licznik_kart - 1;
+                karty[tymczasowa].potwierdzPlatnosc();
                 panelPlatnosc.Hide();
                 panelLoty.Show();
                 textCVC.Clear();
                 textNrKarty.Clear();
+
             }
             else MessageBox.Show("Wprowadzono błędne dane, spróbuj ponownie.");
         }
@@ -266,6 +272,7 @@ namespace ARS
                 // panelLogowanieAdmin.Hide();
                 panelAdminPanel.BringToFront();
                 panelAdminPanel.Show();
+                textWprowadzoneHaslo.Clear();
             }
         }
 
@@ -284,6 +291,8 @@ namespace ARS
 
             panelAdminPanel.Hide();
             panelAnulowanie.Show();
+            panelAnulowanie.BringToFront();
+            
         }
 
         private void przyciskDodajLot_Click(object sender, EventArgs e)
@@ -306,14 +315,16 @@ namespace ARS
                     rezerwacje[j].anuluj();
                     MessageBox.Show("Pierwsza pętla");
                 }
+                else MessageBox.Show("Nie znaleziono takiej rezerwacji!");
             }
-            //!!!!!!!!!!! Konstruktor kopiujący dla kart!!!!!!!!!!
+
             for (int x = 0; x < licznik_kart; x++)
             {
 
                 if (karty[x].pokazNazwisko() == Anazw && karty[x].pokazNr_tel() == Anr)
                 {
-                    //admin1.anuluj_rezerwacje(karty[x]);
+
+                    admin1.anuluj_rezerwacje(karty[x]);
                     for (int k = 0; k < liczba_lotow; k++)
                     {
                         if (karty[x].podajNr_lotu() == loty[k].podaj_nr_lotu() && karty[x].podajDate_lotu() == loty[k].podaj_date())
@@ -321,10 +332,14 @@ namespace ARS
 
                             loty[k].zwolnij_miejsce(karty[x].pokaz_karte());
                             MessageBox.Show("Zwolniono, anulowano");
+                            
                             break;
                         }
 
                     }
+
+                    textNazwiskoAnulacja.Clear();
+                    textNrtelAnulacja.Clear();
                     panelAnulowanie.Hide();
                     panelAdminPanel.Show();
                     break;
@@ -352,14 +367,22 @@ namespace ARS
             tabelaLotow.Rows.Add(pol[liczba_lotow].podaj_lotnisko_wylotu(), pol[liczba_lotow].podaj_lotnisko_docelowe(), pol[liczba_lotow].podaj_godz_odlotu(), pol[liczba_lotow].podaj_godz_przylotu(), pol[liczba_lotow].podaj_date());
             tabelaLotowAdmin.Rows.Add(pol[liczba_lotow].podaj_lotnisko_wylotu(), pol[liczba_lotow].podaj_lotnisko_docelowe(), pol[liczba_lotow].podaj_godz_odlotu(), pol[liczba_lotow].podaj_godz_przylotu(), pol[liczba_lotow].podaj_date());
 
+            liczba_lotow++;
             comboBox.Items.Add(liczba_lotow.ToString());
             
             comboBoxAdmin.Items.Add(liczba_lotow.ToString());
 
-            liczba_lotow++;
+            
 
             panelDodajLot.Hide();
             panelAdminPanel.Show();
+
+            textLotniskoDocelowe.Clear();
+            textLotniskoDocelowe.Clear();
+            textDataLotu.Clear();
+            textNrLotu.Clear();
+            textGodzinaWylotu.Clear();
+            textGodzinaPrzylotu.Clear();
         }
 
      
@@ -379,9 +402,9 @@ namespace ARS
                 bw.Write(loty[i].wysw());
                
                 bw.Write(loty[i].ile_miejsc());
-                bw.Write(loty[i].lotnisko_docelowe); // getter 
-                bw.Write(loty[i].podaj_nr_lotu());
-                bw.Write(loty[i].podaj_date());
+                bw.Write(loty[i].lotnisko_docelowe); // publiczne!!!
+                bw.Write(loty[i].podaj_nr_lotu()); 
+                bw.Write(loty[i].podaj_date());  // publiczne!!
                 bw.Write(loty[i].lotnisko_wylotu);
 
             }
@@ -429,6 +452,8 @@ namespace ARS
                 bw.Write(pol[i].podaj_godz_przylotu());
 
             }
+
+            bw.Close();
         }
 
         void wczytywaniePolaczen()
@@ -446,6 +471,131 @@ namespace ARS
                 pol[i].wczytaj(temp_godz_odlt, temp_godz_przyl);
             }
 
+            br.Close();
+        }
+
+        void zapisywanieRezerw()
+        {
+            string pathRezerw = "rezerwacjeplik.dat";
+
+            FileInfo datFile = new FileInfo(pathRezerw);
+
+            BinaryWriter bw = new BinaryWriter(datFile.OpenWrite());
+
+            bw.Write(licznik_rezerwacji);
+            bw.Write(licznik_kart);
+
+
+            for(int j=0; j<licznik_rezerwacji;j++)
+            {
+                bw.Write(rezerwacje[j].podajImie());
+                bw.Write(rezerwacje[j].pokazNazwisko());
+                bw.Write(rezerwacje[j].podajKraj());
+                bw.Write(rezerwacje[j].pokazNr_tel());
+                bw.Write(rezerwacje[j].podajNr_lotu());
+                bw.Write(rezerwacje[j].podajDate_lotu());
+                bw.Write(rezerwacje[j].czy_anulowana());
+            }
+            bw.Close();
+        }
+
+        void wczytywanieRezerw()
+        {
+            string pathRezerw = "rezerwacjeplik.dat";
+
+            FileInfo datFile = new FileInfo(pathRezerw);
+            BinaryReader br = new BinaryReader(datFile.OpenRead());
+
+            licznik_rezerwacji = br.ReadInt32();
+            licznik_kart = br.ReadInt32();
+
+            for (int i=0; i<licznik_rezerwacji;i++)
+            {
+                string tempImie = br.ReadString();
+                string tempNazwisko = br.ReadString();
+                string tempKraj = br.ReadString();
+                string tempNrtel = br.ReadString();
+                string tempNrlotu = br.ReadString();
+                string tempData = br.ReadString();
+                bool tempAnulowana = br.ReadBoolean();
+
+                Rezerwacje rez1 = new Rezerwacje(tempNrlotu,tempData,tempImie,tempNazwisko, tempNrtel,tempKraj,tempAnulowana); 
+                rezerwacje.Insert(i,rez1);
+            }
+
+            br.Close();
+            
+        }
+
+        void zapisywanieKart()
+        {
+            string pathKarty = "kartyplik.dat";
+
+            FileInfo datFile = new FileInfo(pathKarty);
+
+            BinaryWriter bw = new BinaryWriter(datFile.OpenWrite());
+
+            for(int i=0;i<licznik_kart;i++)
+            {
+                bw.Write(karty[i].podajImie());
+                bw.Write(karty[i].pokazNazwisko());
+                bw.Write(karty[i].podajKraj());
+                bw.Write(karty[i].pokazNr_tel());
+                bw.Write(karty[i].podajNr_lotu());
+                bw.Write(karty[i].podajDate_lotu());
+                bw.Write(karty[i].czy_anulowana());
+                bw.Write(karty[i].czyPriority());
+                bw.Write(karty[i].czyBagaz());
+                bw.Write(karty[i].pokaz_karte());
+                bw.Write(karty[i].podaj_status_platnosci());
+            }
+            bw.Close();
+
+        }
+
+        void wczytywanieKart()
+        {
+            string pathKarty = "kartyplik.dat";
+
+            FileInfo datFile = new FileInfo(pathKarty);
+            BinaryReader br = new BinaryReader(datFile.OpenRead());
+
+            for(int i = 0; i< licznik_kart; i++)
+            {
+                string tempImie = br.ReadString();
+                string tempNazwisko = br.ReadString();
+                string tempKraj = br.ReadString();
+                string tempNrtel = br.ReadString();
+                string tempNrlotu = br.ReadString();
+                string tempData = br.ReadString();
+                bool tempAnulowana = br.ReadBoolean();
+
+                bool tempPriority = br.ReadBoolean();
+                bool tempBagaz = br.ReadBoolean();
+                int tempNr_miejsca = br.ReadInt32();
+                bool tempStatus = br.ReadBoolean();
+
+                Karta_pokladowa k1 = new Karta_pokladowa(tempNrlotu, tempData, tempImie, tempNazwisko, tempNrtel, tempNr_miejsca, tempKraj, tempAnulowana,tempBagaz,tempPriority, tempStatus);
+                karty.Insert(i, k1);
+
+
+                for (int k = 0; k < liczba_lotow; k++)
+                {
+
+                    if (karty[i].podajNr_lotu() == loty[k].podaj_nr_lotu() && karty[i].podajDate_lotu() == loty[k].podaj_date() && karty[i].czy_anulowana() == false)
+                    {
+                        //  qDebug()<<"Znaleziono zgodność"<<karty[i].pokaz_karte();
+                        MessageBox.Show(karty[i].pokazNazwisko());
+                        loty[k].zajmij_miejsce(karty[i].pokaz_karte());
+                    }
+                }
+
+            }
+
+
+
+            br.Close();
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -453,6 +603,10 @@ namespace ARS
            
             zapisywanieLotow();
             zapisywaniePolaczen();
+            zapisywanieRezerw();
+            zapisywanieKart();
         }
+
+      
     }
 }

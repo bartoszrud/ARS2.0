@@ -30,6 +30,16 @@ namespace ARS
             data_odlotu = lot.podaj_date();
             anulowana = false;
         }
+        public Rezerwacje(string nrlotu, string data, string Kimie, string Knazwisko, string Knr_tel, string Kkraj = "PL", bool Kczy_anulowana=false)
+        {
+            imie = Kimie;
+            nazwisko = Knazwisko;
+            nr_tel = Knr_tel;
+            kraj = Kkraj;
+            nr_lotu = nrlotu;
+            data_odlotu = data;
+            anulowana = Kczy_anulowana;
+        }
         public void wczytaj_dane(string Kimie, string Knazwisko, string Knr_tel, string Kkraj)
         {
             imie = Kimie;
@@ -76,6 +86,15 @@ namespace ARS
             priority = prio;
             status_platnosci = false;
         }
+
+        public Karta_pokladowa(string nrlotu, string data, string Kimie, string Knazwisko, string Knr_tel, int Knr_miejsca, string Kkraj = "PL",  bool Kczy_anulowana = false, bool bag = false, bool prio = false, bool status_pl = true)
+            : base (nrlotu,  data,  Kimie,  Knazwisko, Knr_tel, Kkraj = "PL",  Kczy_anulowana = false)
+        {
+            bagaz = bag;
+            priority = prio;
+            status_platnosci = status_pl;
+            nr_miejsca = Knr_miejsca;
+        }
         public void dodaj_bagaz() { bagaz = true; }
         public void dodaj_priority() { priority = true; }
         public void wybierz_miejsce(int siedzenie) { nr_miejsca = siedzenie; }
@@ -83,7 +102,7 @@ namespace ARS
         {
             return nr_miejsca;
         }
-            
+        public bool podaj_status_platnosci() { return status_platnosci; }
             
         public bool czyBagaz()  // zwraca true jeżeli pasażer ma już wykupiony bagaż
         {
